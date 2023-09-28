@@ -19,3 +19,43 @@ function getComputerChoice () {
         return "Scissors"
     }
 }
+
+// Declare function(playerSelection, computerSelection)
+//   transform playerSelection into case-insensitive
+//   if playerSelection === computerSelection {
+//     return draw
+//   } else if (playerSelection === rock && computerSelection === scissors) {
+//     return u win
+//   } else if (playerSelection === paper && computerSelection === rock) {
+//     return u win
+//   } else if (playerSelection === scissors && computerSelection === paper) {
+//     return u win
+//   } else if (playerSelection === rock && computerSelection === paper) {
+//     return u lose
+//   } else if (playerSelection === paper && computerSelection === scissors) {
+//     return u lose
+//   } else if {
+//     return u win
+//   }
+
+function singleRound(playerSelection, computerSelection) {
+    let strLower = playerSelection.toLowerCase();
+    const firstLetter = playerSelection[0].toUpperCase();
+    const selection = strLower.replace(/^[a-z]/i, firstLetter);
+
+    if (selection === computerSelection) {
+        return `Draw! You and Incognitos both chose ${selection}`;
+    } else if ((selection === "Rock") && (computerSelection === "Scissors")) {
+        return `You Win! ${selection} beats ${computerSelection}`;
+    } else if ((selection === "Paper") && (computerSelection === "Rock")) {
+        return `You Win! ${selection} beats ${computerSelection}`;
+    } else if ((selection === "Scissors") && (computerSelection === "Paper")) {
+        return `You Win! ${selection} beats ${computerSelection}`;
+    } else if ((selection === "Rock") && (computerSelection === "Paper")) {
+        return `You Lose! ${computerSelection} beats ${selection}`;
+    } else if ((selection === "Paper") && (computerSelection === "Scissors")) {
+        return `You Lose! ${computerSelection} beats ${selection}`;
+    } else {
+        return `You Lose! ${computerSelection} beats ${selection}`;
+    }
+}
