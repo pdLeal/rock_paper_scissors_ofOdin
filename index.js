@@ -59,3 +59,50 @@ function singleRound(playerSelection, computerSelection) {
         return `You Lose! ${computerSelection} beats ${selection}`;
     }
 }
+
+// declare function
+//   aks how many rounds and store into a variable
+//   declare 2 score variables to keep track of player and pc scores
+//   if rounds === 0/NaN/Null
+//     return angry message
+//   for (played, enquanto <= rodadas, played + 1) {
+//     call singleRound(prompt, getComputerChoice) and print the result
+//     store the winner into variable score
+//   }
+//   if player score > pc {
+//     return congrats
+//   } else {
+//     return loser
+//   }
+
+(function game() {
+    const rodadas = +prompt("How many rounds do you wanna play?")
+    let playerScore = 0;
+    let pcScore = 0;
+
+    if (rodadas === 0 || isNaN(rodadas) || rodadas === null) {
+        return console.log("If you don't wanna play don't waste my time bro");
+    }
+
+    for (let rounds = 1; rounds <= rodadas; rounds++) {
+        const playerSelection = prompt("Rock, paper or scissors?");
+        const round = singleRound(playerSelection, getComputerChoice());
+        console.log(round);
+
+        if (round.includes("Win")) {
+            playerScore += 1;
+        } else if (round.includes("Lose")) {
+            pcScore += 1
+        }
+    }
+
+    if (playerScore > pcScore) {
+        const message = `You won ${playerScore} rounds. Congratulations, you are the Champion`;
+        console.log(message);
+    } else if (pcScore > playerScore) {
+        const message = `You lost ${pcScore} rounds. Congratulations, you are the Champion of the Losers`
+        console.log(message);
+    } else {
+        console.log("Win or lose doesn't matter, so let's draw");
+    }
+})();
