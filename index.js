@@ -1,14 +1,4 @@
-// Declare funtion
-//  criar e armazenar valor aleatório entre 1 e 3
-//  se valor = 1
-//    return paper
-//  se valor = 2
-//    return rock
-//  se valor = 3
-//    return scissor
-// FIM
-
-function getComputerChoice () {
+function getComputerChoice() {
     const randomNum = Math.floor(Math.random() * 3) + 1;
 
     if (randomNum === 1) {
@@ -20,89 +10,79 @@ function getComputerChoice () {
     }
 }
 
-// Declare function(playerSelection, computerSelection)
-//   transform playerSelection into case-insensitive
-//   if playerSelection === computerSelection {
-//     return draw
-//   } else if (playerSelection === rock && computerSelection === scissors) {
-//     return u win
-//   } else if (playerSelection === paper && computerSelection === rock) {
-//     return u win
-//   } else if (playerSelection === scissors && computerSelection === paper) {
-//     return u win
-//   } else if (playerSelection === rock && computerSelection === paper) {
-//     return u lose
-//   } else if (playerSelection === paper && computerSelection === scissors) {
-//     return u lose
-//   } else if {
-//     return u win
-//   }
+let playerScore = 0;
+let pcScore = 0;
 
 function singleRound(playerSelection, computerSelection) {
-    let strLower = playerSelection.toLowerCase();
-    const firstLetter = playerSelection[0].toUpperCase();
-    const selection = strLower.replace(/^[a-z]/i, firstLetter);
+    const results = document.querySelector(".results");
+    const para = document.createElement("p");
 
-    if (selection === computerSelection) {
-        return `Draw! You and Incognitos both chose ${selection}`;
-    } else if ((selection === "Rock") && (computerSelection === "Scissors")) {
-        return `You Win! ${selection} beats ${computerSelection}`;
-    } else if ((selection === "Paper") && (computerSelection === "Rock")) {
-        return `You Win! ${selection} beats ${computerSelection}`;
-    } else if ((selection === "Scissors") && (computerSelection === "Paper")) {
-        return `You Win! ${selection} beats ${computerSelection}`;
-    } else if ((selection === "Rock") && (computerSelection === "Paper")) {
-        return `You Lose! ${computerSelection} beats ${selection}`;
-    } else if ((selection === "Paper") && (computerSelection === "Scissors")) {
-        return `You Lose! ${computerSelection} beats ${selection}`;
+    if (playerSelection === computerSelection) {
+        para.textContent = `Draw! You and Incognitos both chose ${playerSelection} --- Won: ${playerScore} Lost: ${pcScore}`;
+        results.appendChild(para);
+    } else if ((playerSelection === "Rock") && (computerSelection === "Scissors")) {
+        playerScore += 1;
+        para.textContent = `You Win! ${playerSelection} beats ${computerSelection} --- Won: ${playerScore} Lost: ${pcScore}`;
+        results.appendChild(para);
+    } else if ((playerSelection === "Paper") && (computerSelection === "Rock")) {
+        playerScore += 1;
+        para.textContent = `You Win! ${playerSelection} beats ${computerSelection} --- Won: ${playerScore} Lost: ${pcScore}`;
+        results.appendChild(para);
+    } else if ((playerSelection === "Scissors") && (computerSelection === "Paper")) {
+        playerScore += 1;
+        para.textContent = `You Win! ${playerSelection} beats ${computerSelection} --- Won: ${playerScore} Lost: ${pcScore}`;
+        results.appendChild(para);
+    } else if ((playerSelection === "Rock") && (computerSelection === "Paper")) {
+        pcScore += 1;
+        para.textContent = `You Lose! ${computerSelection} beats ${playerSelection} --- Won: ${playerScore} Lost: ${pcScore}`
+        results.appendChild(para);;
+    } else if ((playerSelection === "Paper") && (computerSelection === "Scissors")) {
+        pcScore += 1;
+        para.textContent = `You Lose! ${computerSelection} beats ${playerSelection} --- Won: ${playerScore} Lost: ${pcScore}`;
+        results.appendChild(para);
     } else {
-        return `You Lose! ${computerSelection} beats ${selection}`;
+        pcScore += 1;
+        para.textContent = `You Lose! ${computerSelection} beats ${playerSelection} --- Won: ${playerScore} Lost: ${pcScore}`;
+        results.appendChild(para);
+    }
+
+
+    function pageReload() {
+        location.reload()
+    }
+
+    if (playerScore + pcScore === 5) {
+        const newGame = document.createElement("button");
+
+        for (let i = 0; i < 3; i++) {
+            rock.removeEventListener("click", playRock);
+            paper.removeEventListener("click", playPaper);
+            scissors.removeEventListener("click", playScissors);
+        }
+
+        if(playerScore > pcScore) {
+            para.textContent = `Congratulations! You are now a Champion!`;
+            newGame.textContent = "Play again";
+            newGame.addEventListener("click", pageReload)
+            results.append(para, newGame);
+        } else {
+            para.textContent = `Nice try, but you are nothing compared to the power of INCOGNITOS, GOD OF ROCK, PAPER AND SCISSORS!!!`;
+            newGame.textContent = "Wanna try again you pitiful bag of meat?";
+            newGame.addEventListener("click", pageReload)
+            results.append(para, newGame);
+        }
     }
 }
 
-// declare function
-//   aks how many rounds and store into a variable
-//   declare 2 score variables to keep track of player and pc scores
-//   if rounds === 0/NaN/Null
-//     return angry message
-//   for (played, enquanto <= rodadas, played + 1) {
-//     call singleRound(prompt, getComputerChoice) and print the result
-//     store the winner into variable score
-//   }
-//   if player score > pc {
-//     return congrats
-//   } else {
-//     return loser
-//   }
+const rock = document.querySelector("#rock");
+const paper = document.querySelector("#paper");
+const scissors = document.querySelector("#scissors");
 
-(function game() {
-    const rodadas = +prompt("How many rounds do you wanna play?")
-    let playerScore = 0;
-    let pcScore = 0;
+function playRock() { singleRound("Rock", getComputerChoice()); }
+function playPaper() { singleRound("Paper", getComputerChoice()); }
+function playScissors() { singleRound("Scissors", getComputerChoice()); }
 
-    if (rodadas === 0 || isNaN(rodadas) || rodadas === null) {
-        return console.log("If you don't wanna play don't waste my time bro");
-    }
+rock.addEventListener("click", playRock);
+paper.addEventListener("click", playPaper);
+scissors.addEventListener("click", playScissors);
 
-    for (let rounds = 1; rounds <= rodadas; rounds++) {
-        const playerSelection = prompt("Rock, paper or scissors?");
-        const round = singleRound(playerSelection, getComputerChoice());
-        console.log(round);
-
-        if (round.includes("Win")) {
-            playerScore += 1;
-        } else if (round.includes("Lose")) {
-            pcScore += 1
-        }
-    }
-
-    if (playerScore > pcScore) {
-        const message = `You won ${playerScore} rounds. Congratulations, you are the Champion`;
-        console.log(message);
-    } else if (pcScore > playerScore) {
-        const message = `You lost ${pcScore} rounds. Congratulations, you are the Champion of the Losers`
-        console.log(message);
-    } else {
-        console.log("Win or lose doesn't matter, so let's draw");
-    }
-})();
